@@ -1,20 +1,25 @@
 import axios from "axios"
-import { useState } from "react"
-import { Button, TextInput, View, StyleSheet } from "react-native"
-import Select from 'react-select'
+import { useEffect, useState } from "react"
+import { Button, TextInput, View, StyleSheet, Picker, Text } from "react-native"
 
 const Register = () => {
 
     const [firstName, setFirstName] = useState('')
-    const [lastname, setLastName] = useState('')
+    const [lastName, setLastName] = useState('')
     const [username, setUsername] = useState('')
-    const [phone, setPhone] = useState(0)
+    const [phone, setPhone] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [terms, setTerms] = useState(false)
     const [user, setUser]= useState([])
-    const [isLogged, setIsLogged] = useState(false)
     const [error, setError] = useState('')
+    const [genderValue, setGenderValue] = useState(1);
+    const [errorFirstName, setErrorFirstName] = useState('')
+    const [errorLastName, setErrorLastName] = useState('')
+    const [errorPhone, setErrorPhone] = useState('')
+    const [errorUsername, setErrorUsername] = useState('')
+    const [errorPassword, setErrorPassword] = useState('')
+    const [errorConfirmPassword, setErrorConfirmPassword] = useState('')
+    const [checked, setChecked] = useState('first');
 
     const storeToken = async (value) => {
         try {
@@ -24,51 +29,51 @@ const Register = () => {
         }
       }
     
-      const storeUser = async (value) => {
-        try {
-          await AsyncStorage.setItem('user', JSON.stringify(value))
-        } catch (e) {
-          // saving error
-        }
+    const storeUser = async (value) => {
+      try {
+        await AsyncStorage.setItem('user', JSON.stringify(value))
+      } catch (e) {
+        // saving error
       }
+    }
+
+    const formValidate = () => {
+      firstName == '' ? setErrorFirstName('შეიყვანეთ სახელი') :setErrorFirstName('')
+      lastName == '' ? setErrorLastName('შეიყვანეთ გვარი') : setErrorLastName('')
+      username == '' ? setErrorUsername('შეიყვანეთ მომხმარებლის სახელი') : setErrorUsername('')
+      phone == '' ? setErrorPhone('შეიყვანეთ ნომერი') : setErrorPhone('')
+      password == '' ? setErrorPassword('შეიყვანეთ მინიმუმ 8 სიმბოლო') :setErrorPassword('')
+      confirmPassword == '' ? setErrorConfirmPassword('გაიმეორეთ პაროლი') :setErrorConfirmPassword('')
+      password !== confirmPassword ? setErrorConfirmPassword('პაროლები ერთმანეთს უნდა ემთხვეოდეს') : setErrorConfirmPassword('')
+    }
 
     const Register = async () => {
+      formValidate();
         try{
             const response = await axios.post(
               'https://cms.vendoo.ge/api/customer/registration',
-            //   {
-            //     confirm_password: confirmPassword,
-            //     firstname: firstName,
-            //     gender: "2",
-            //     lastname: lastname,
-            //     password: password,
-            //     phone: 55555555,
-            //     terms: true,
-            //     username: username
-            //   },
-            {
-                code: "",
-                confirm_password: "11111111",
-                firstname: "keti",
-                gRecaptchaResponse: "03AGdBq24ykNrRzkib8MKVswofT7BxBevTgIO3UVCh9f5StjVd7ulLbCmB8RV5nd8sMCRZWPQlbdRznn2NKr0L3AWyGtujaRB9TfFCN5MORWGBhwkZlB9sAQ47KWIRcDijuXElnLZh1xvF8JlEKA20_I7fqwLyw4-4krt5xqPn4wtvYhMCnOHgS8gBPtVEcUIxlrYUEdJBo4TG8UB9DlfFqpnapw98Ji1DFixh3vf7c391G2Fqya7At9exu-E3jzUfZr05Cdp4KhQkisi9mMw1tzWujS3-fppYSDvuSgmsG_sQO6qXUjRv0NEPIFzy32Lz5SOdwyP7Dtl8FJqtNLNaUEWiZ_RPRutTbcTM8CkK3sV44zDQ769NlLcPg3bFaqPFXXfIwzU6Q9TCWZPGMmv7DlSEXjB_IRu9IFoLS7YIpZIwx5M0WUN-ouaCoz8aQ0g4YQqlCDqEZ1sk",
-                gender: "2",
-                lastname: "dfdf",
-                password: "11111111",
-                phone: "555222555",
-                terms: true,
-                token: false,
-                username: "s@gmail.com",
-            },
               {
-                headers: {
-                  'accept': 'application/json',
-                  'content-type': 'application/json',
-                  'access-control-allow-headers': 'Authorization, Origin, X-Requested-With, Content-Type, Accept',
-                  'access-control-allow-methods': '*',
-                  'access-control-allow-origin': '*'
-                }
+                firstname:firstName,
+                lastname: lastName,
+                username:username,
+                phone: phone,
+                password: password,
+                confirm_password: confirmPassword,
+                gender: genderValue,
+                terms:true,
+              },
+            {
+              headers: {
+                // 'accept': 'application/json',
+                // 'content-type': 'application/json',
+                // 'access-control-allow-headers': 'Authorization, Origin, X-Requested-With, Content-Type, Accept',
+                // 'access-control-allow-methods': '*',
+                // 'access-control-allow-origin': '*',
+                // 'sec-fetch-site': 'cross-site'
+                'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8',
               }
-            )
+            }
+          )
       
             // const token = response.data.accessToken;
             // const user = response.data.user
@@ -80,72 +85,100 @@ const Register = () => {
             console.log(response)
           }
           catch(e) {
-            // console.log(e.response.data)
             // setError(e.response.data)
           }
-        }
+    }
+
+    useEffect(() => {
+
+    }, [])
 
     return(
-        <View style={{
-            marginTop: 20,
+        <View  style={{
+          margin: 20,
+          marginTop: 100,
         }}>
-            <TextInput 
-                style = {styles.input}
-                type="text" 
-                value={firstName} 
-                placeholder="სახელი"
-                onChangeText={(e) => setFirstName(e)}
-            />
-            <TextInput 
-                style = {styles.input}
-                type="text" 
-                value={lastname} 
-                placeholder="გვარი"
-                onChangeText={(e) => setLastName(e)}
-            />
-            <TextInput 
-                style = {styles.input}
-                type="text" 
-                value={username} 
-                placeholder="ელ.ფოსტა"
-                onChangeText={(e) => setUsername(e)}
-            />
-            {/* <TextInput 
-                style = {styles.input}
-                type="number" 
-                value={phone} 
-                placeholder="მობილური"
-                onChangeText={(e) => setPhone(e)}
-            /> */}
-            <TextInput 
-                style = {styles.input}
-                type="password" 
-                value={password} 
-                placeholder="პაროლი"
-                onChangeText={(e) => setPassword(e)}
-            />
-            <TextInput 
-                style = {styles.input}
-                type="password" 
-                value={confirmPassword} 
-                placeholder="დაადასტურეთ პაროლი"
-                onChangeText={(e) => setConfirmPassword(e)}
-            />
-            <Button 
-                title = "რეგისტრაცია"
-                color = 'green'
-                onPress={() => Register()}
-            />
-        </View>
+            <Picker
+              style={styles.select}
+              selectedValue={genderValue}
+              onValueChange={(itemValue) => setGenderValue(itemValue)}
+            >
+              <Picker.Item label="მდედრობითი" value="1" />
+              <Picker.Item label="მამრობითი" value="2" />
+            </Picker>
+            
+              <TextInput 
+                  style = {styles.input}
+                  value={firstName} 
+                  placeholder="სახელი"
+                  onChangeText={(e) => setFirstName(e)}
+              />
+               <Text style={styles.error}>{errorFirstName}</Text>
+              <TextInput 
+                  style = {styles.input}
+                  value={lastName} 
+                  placeholder="გვარი"
+                  onChangeText={(e) => setLastName(e)}
+              />
+              <Text style={styles.error}>{errorLastName}</Text>
+              <TextInput 
+                  style = {styles.input}
+                  value={username} 
+                  placeholder="ელ.ფოსტა"
+                  onChangeText={(e) => setUsername(e)}
+              />
+              <Text style={styles.error}>{errorUsername}</Text>
+              <TextInput 
+                  style = {styles.input}
+                  value={phone} 
+                  placeholder="მობილური"
+                  keyboardType="numeric"
+                  maxLength={9}
+                  onChangeText={(e) => setPhone(e)}
+              />
+              <Text style={styles.error}>{errorPhone}</Text>
+              <TextInput 
+                  style = {styles.input}
+                  secureTextEntry = {true} 
+                  value={password} 
+                  placeholder="პაროლი"
+                  onChangeText={(e) => setPassword(e)}
+              />
+              <Text style={styles.error}>{errorPassword}</Text>
+              <TextInput 
+                  style = {styles.input}
+                  secureTextEntry = {true} 
+                  value={confirmPassword} 
+                  keyboardType="numeric"
+                  placeholder="დაადასტურეთ პაროლი"
+                  onChangeText={(e) => setConfirmPassword(e)}
+              />
+              <Text style={styles.error}>{errorConfirmPassword}</Text>
+              <Button 
+                  title = "რეგისტრაცია"
+                  color = '#7ca039'
+                  onPress={() => Register()}
+              />
+          </View>
     )
 }
 
-const styles = StyleSheet.create({
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-    }
-})
 export default Register
+
+const styles = StyleSheet.create({
+  input: {
+      fontSize: 18,
+      borderWidth: 2,
+      borderColor: '#d5d5d5',
+      margin: 2
+  },
+  select: {
+    marginBottom: 7,
+    width: '100%',
+  },
+  error: {
+    color: 'red',
+    fontSize: 16,
+    marginBottom: 5
+  }
+})
