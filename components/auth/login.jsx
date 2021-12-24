@@ -7,6 +7,7 @@ const Login = ({navigation}) => {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [isLogged, setIsLogged] = useState(false)
     const [error, setError] = useState('')
     const [errorUsername, setErrorUsername] = useState('')
     const [errorPassword, setErrorPassword] = useState('')
@@ -15,6 +16,7 @@ const Login = ({navigation}) => {
         try {
             await AsyncStorage.setItem('token', JSON.stringify(value))
         } catch (e) {
+            console.log(e.message)
             // saving error
         }
     }
@@ -41,13 +43,15 @@ const Login = ({navigation}) => {
                 }
             )
     
-            const token = response.token;
+            const token = response;
 
             await storeToken(token)
-            navigation.navigate('პროდუქტები')
+            setIsLogged(() => true)
+            if(isLogged) {
+                navigation.navigate('პროდუქტები')
+            }
         }
         catch(e){
-            
             setError(e.message)
         }
     }
@@ -59,9 +63,13 @@ const Login = ({navigation}) => {
            setIsLogged(true)
           }
         } catch(e) {
-          // error reading value
         }
     }
+
+    // const LogOut = async() => {
+    //     await localStorage.removeItem('token')
+    //     setIsLogged(false)
+    // }
 
     useEffect(async () => {
         await checkToken()
@@ -69,38 +77,33 @@ const Login = ({navigation}) => {
 
     return(
         <View style={{
-            margin: 20,
-            marginTop: 100,
-          }}>
-            <Text>{error}</Text>
-            <TextInput 
-                style = {styles.input}
-                type="text" 
-                value={username} 
-                placeholder="ელ.ფოსტა ან მობილური"
-                onChangeText={(e) => setUsername(e)}
-            />
-            <Text style={styles.error}>{errorUsername}</Text>
-            <TextInput 
-                style = {styles.input}
-                secureTextEntry = {true} 
-                placeholder="პაროლი"
-                value={password} 
-                onChangeText={(e) => setPassword(e)}
-            />
-            <Text style={styles.error}>{errorPassword}</Text>
-            <Button 
-                title = "ავტორიზაცია"
-                color = 'green'
-                onPress={() => Login()}
-            />
-            <View style={styles.container}>
-                <Text style={{fontSize: 18}}>ახალი ხარ ვენდუზე? </Text>
-                <Text
-                    style={{fontSize: 18, textDecorationLine: 'underline'}}
-                    onPress={() => navigation.navigate('რეგისტრაცია')}
-                >დარეგისტრირდი</Text>
-            </View>
+                margin: 20,
+                marginTop: 100,
+            }}>
+            
+                    <Text style={styles.error}>{error}</Text>
+                    <TextInput 
+                        style = {styles.input}
+                        type="text" 
+                        value={username} 
+                        placeholder="ელ.ფოსტა ან მობილური"
+                        onChangeText={(e) => setUsername(e)}
+                    />
+                    <Text style={styles.error}>{errorUsername}</Text>
+                    <TextInput 
+                        style = {styles.input}
+                        secureTextEntry = {true} 
+                        placeholder="პაროლი"
+                        value={password} 
+                        onChangeText={(e) => setPassword(e)}
+                    />
+                    <Text style={styles.error}>{errorPassword}</Text>
+                    <Button 
+                        title = "ავტორიზაცია"
+                        color = 'green'
+                        onPress={() => Login()}
+      />
+            
         </View>
     )
 }
@@ -109,17 +112,11 @@ export default Login
 
 const styles = StyleSheet.create({
     input: {
-        fontSize: 20,
+        fontSize: 18,
         borderWidth: 2,
         borderColor: '#d5d5d5',
         margin: 2
     },
-    container:{
-        width: '100%',
-        flexDirection: "row",
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },  
     error: {
       color: 'red',
       fontSize: 16,
