@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Text, TextInput, View, StyleSheet, Button } from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { login } from '../../../services/authService'
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const Login = ({navigation}) => {
 
@@ -11,6 +12,7 @@ const Login = ({navigation}) => {
     const [error, setError] = useState('')
     const [errorUsername, setErrorUsername] = useState('')
     const [errorPassword, setErrorPassword] = useState('')
+    const [hidePass, setHidePass] = useState(true);
 
     const storeToken = async (value) => {
         try {
@@ -73,7 +75,6 @@ const Login = ({navigation}) => {
                 margin: 20,
                 marginTop: 100,
             }}>
-            
                     <Text style={styles.error}>{error}</Text>
                     <TextInput 
                         style = {styles.input}
@@ -83,13 +84,22 @@ const Login = ({navigation}) => {
                         onChangeText={(e) => usernameValidate(e)}
                     />
                     <Text style={styles.error}>{errorUsername}</Text>
-                    <TextInput 
-                        style = {styles.input}
-                        secureTextEntry = {true} 
-                        placeholder="პაროლი"
-                        value={password} 
-                        onChangeText={(e) => setPassword(e)}
-                    />
+                    <View style={styles.password}>
+                        <TextInput 
+                            style = {styles.input}
+                            autoCompleteType="password"
+                            secureTextEntry={hidePass ? true : false}
+                            placeholder="პაროლი"
+                            value={password} 
+                            onChangeText={(e) => setPassword(e)}
+                        />
+                        <Icon
+                            name={hidePass ? 'eye-slash' : 'eye'}
+                            size={15}
+                            color="grey"
+                            onPress={() => setHidePass(!hidePass)}
+                        />               
+                    </View>
                     <Text style={styles.error}>{errorPassword}</Text>
                     <Button 
                         title = "ავტორიზაცია"
@@ -108,7 +118,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         borderWidth: 2,
         borderColor: '#d5d5d5',
-        margin: 2
+        margin: 2,
+        width: '100%'
+    },
+    password: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flexStart',
+        alignItems: 'center',
     },
     error: {
       color: 'red',
