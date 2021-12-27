@@ -1,7 +1,7 @@
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { Text, TextInput, View, StyleSheet, Button } from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { login } from '../../../services/authService'
 
 const Login = ({navigation}) => {
 
@@ -24,35 +24,23 @@ const Login = ({navigation}) => {
     const formValidate = () => {
         username == '' ? setErrorUsername('ველის შევსება აუცილებელია') : setErrorUsername('')
         password == '' ? setErrorPassword('ველის შევსება აუცილებელია') : setErrorPassword('')
-      }
+    }
 
-    const Login = async () => {
+    const Login = async (username, password) => {
         formValidate()
         try{
-            const response = await axios.post(
-                'https://cms.vendoo.ge/api/customer/login', 
-                {
-                    username: username,
-                    password: password
-                },
-                {
-                    headers: {
-                        'accept': 'application/json',
-                        'content-type': 'application/json'
-                    }
-                }
-            )
-    
+            const response = await login(username, password)
+            await localStorage.removeItem('token')
             const token = response;
-
             await storeToken(token)
             setIsLogged(() => true)
-            if(isLogged) {
-                navigation.navigate('პროდუქტები')
-            }
+
+            isLogged ? navigation.navigate('პროდუქტები') : ''
         }
         catch(e){
-            setError(e.message)
+            setError('')
+            e.response.status == 422 ? setError('შეყვანილი ინფორმაცია არასწორია') : setError('')
+            e.response.status == 500 ? setError(e.response.data.message) : setError('')
         }
     }
 
@@ -62,15 +50,20 @@ const Login = ({navigation}) => {
           if(value !== null) {
            setIsLogged(true)
           }
-        } catch(e) {
-        }
+        } catch(e) {}
     }
 
-    // const LogOut = async() => {
-    //     await localStorage.removeItem('token')
-    //     setIsLogged(false)
-    // }
-
+    const usernameValidate = (username) => {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if (reg.test(username) === false) {
+            setUsername(username)
+            return false;
+        }
+        else {
+            setUsername(username)
+        }
+    }
+    
     useEffect(async () => {
         await checkToken()
     }, [])
@@ -87,7 +80,7 @@ const Login = ({navigation}) => {
                         type="text" 
                         value={username} 
                         placeholder="ელ.ფოსტა ან მობილური"
-                        onChangeText={(e) => setUsername(e)}
+                        onChangeText={(e) => usernameValidate(e)}
                     />
                     <Text style={styles.error}>{errorUsername}</Text>
                     <TextInput 
@@ -101,10 +94,10 @@ const Login = ({navigation}) => {
                     <Button 
                         title = "ავტორიზაცია"
                         color = 'green'
-                        onPress={() => Login()}
-      />
-            
-        </View>
+                        disabled={!username || !password}
+                        onPress={() => Login(username, password)}/>
+               
+              </View>
     )
 }
 

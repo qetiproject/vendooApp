@@ -1,12 +1,12 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Login from './components/auth/login';
-import DecorationCategory from './components/auth/products/decorationCategory';
+import Login from './src/components/auth/login';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux'
 import allReducers from './reducers'
-import Card from './components/auth/products/card';
+import Card from './src/components/products/card';
+import DecorationCategory from './src/components/products/decorationCategory';
 
 export default function App() {
 
