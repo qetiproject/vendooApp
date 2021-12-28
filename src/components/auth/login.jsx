@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Text, TextInput, View, StyleSheet, Button } from "react-native"
+import { Text, TextInput, View, StyleSheet, Button, ActivityIndicator } from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { login } from '../../../services/authService'
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -13,12 +13,15 @@ const Login = ({navigation}) => {
     const [errorUsername, setErrorUsername] = useState('')
     const [errorPassword, setErrorPassword] = useState('')
     const [hidePass, setHidePass] = useState(true);
-
+    const [isLoading, setIsLoading] = useState(false)
+    
     const storeToken = async (value) => {
         try {
             await AsyncStorage.setItem('token', JSON.stringify(value))
+            setIsLoading(false)
+            setUsername('')
+            setPassword('')
         } catch (e) {
-            console.log(e.message)
             // saving error
         }
     }
@@ -30,13 +33,13 @@ const Login = ({navigation}) => {
 
     const Login = async (username, password) => {
         formValidate()
+        setIsLoading(true)
         try{
             const response = await login(username, password)
-            await localStorage.removeItem('token')
+            await AsyncStorage.removeItem('token')
             const token = response;
             await storeToken(token)
-            setIsLogged(() => true)
-
+            setIsLogged(() => true)        
             isLogged ? navigation.navigate('პროდუქტები') : ''
         }
         catch(e){
@@ -66,8 +69,8 @@ const Login = ({navigation}) => {
         }
     }
     
-    useEffect(async () => {
-        await checkToken()
+    useEffect( () => {
+         checkToken()
     }, [])
 
     return(
@@ -107,6 +110,9 @@ const Login = ({navigation}) => {
                         disabled={!username || !password}
                         onPress={() => Login(username, password)}/>
                
+                    {
+                        isLoading && <ActivityIndicator size="large" color="#00ff00" /> 
+                    }
               </View>
     )
 }
@@ -119,12 +125,10 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#d5d5d5',
         margin: 2,
-        width: '100%'
+        width: '95%'
     },
     password: {
-        flex: 1,
         flexDirection: 'row',
-        justifyContent: 'flexStart',
         alignItems: 'center',
     },
     error: {
