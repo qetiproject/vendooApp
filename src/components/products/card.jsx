@@ -1,46 +1,51 @@
 import { useEffect, useState } from "react"
-import { Button, Image, Text, View } from "react-native"
+import { Image, Text, View } from "react-native"
 import { useSelector } from "react-redux"
 
 const Card = () => {
 
     const item = useSelector(state => state.price)
-    const {original_price, name, id} = item
     const [sum, setSum] = useState(0)
 
+    const image  = item?.thumb_img
+                    ? {uri: `${item?.thumb_img?.files.file}`}
+                    : require('../../../assets/images/image-not-found.png')
+
     const priceSum = () => {
-        setSum(original_price)
-    }
-    const deleteItem = (id) => {
+        let totalPrice = 0
+        item.forEach(x => {
+            totalPrice += x.original_price 
+            setSum(totalPrice)
+        })
     }
 
     useEffect(() => [
         priceSum()
-    ], [])
+    ], [item])
 
     return(
        <View>
-            <View style={{flexDirection: 'row'}}>
-                <Image
-                    style={{
-                        width: 50,
-                        height: 50,
-                    }}
-                    source={{uri: `${item?.thumb_img?.files.file}`}}
-                />
-                <View style={{flexDirection: 'column', marginLeft: 5, width: '80%'}}>
-                    <Text>{original_price}ლ</Text>
-                    <Text>{name}</Text>
-                </View>
-            </View>
-            <View>
-                <Button 
-                    title="წაშლა"    
-                    color = "red"
-                    onPress={() => deleteItem(id)}
-                />
-            </View>
-            <Text>სულ: {sum}ლ</Text>
+            {
+                item.map((x) => {
+                    return <View>
+                        <View style={{flexDirection: 'row'}}>
+                            <Image
+                                style={{
+                                    width: 70,
+                                    height: 80,
+                                }}
+                                source={image}
+                            />
+                            <View style={{flexDirection: 'column', marginLeft: 5, width: '80%'}}>
+                                <Text style={{fontSize: 15}}>{x.original_price}ლ</Text>
+                                <Text style={{fontSize: 15}}>{x.name}</Text>
+                            </View>
+                        </View>
+                    </View>
+                    
+                })
+            }
+            <Text style={{fontSize: 15}}>სულ: {sum}ლ</Text>
        </View>
     )
 }
