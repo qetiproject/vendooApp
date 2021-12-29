@@ -21,9 +21,7 @@ const Login = ({navigation}) => {
             setIsLoading(false)
             setUsername('')
             setPassword('')
-        } catch (e) {
-            // saving error
-        }
+        } catch (e) {}
     }
 
     const formValidate = () => {

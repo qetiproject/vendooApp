@@ -1,6 +1,4 @@
-const initialItemState = [ ];
-
-const priceReducer = (state = initialItemState, action) => {
+const priceReducer = (state = [], action) => {
     switch(action.type) {
         case "SUCCESS":
             return [
