@@ -13,7 +13,6 @@ const Card = () => {
         setSum(original_price)
     }
     const deleteItem = (id) => {
-        console.log(id)
     }
 
     useEffect(() => [

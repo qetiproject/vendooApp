@@ -13,16 +13,16 @@ const DecorationItem = ({decoration }) => {
 
     const navigation = useNavigation()
 
+    const image  = decoration.thumb_img
+                    ? {uri: `${decoration?.thumb_img?.files.file}`}
+                    : require('../../../assets/images/image-not-found.png')
+
     const addToCardItem = (value) => {
         dispatch({
             type: 'SUCCESS',
             data: value
         })
     }
-
-    // const image  = decoration.thumb_img
-    //                 ? `${decoration?.thumb_img?.files.file}`
-    //                 : require('../../../assets/images/image-not-found.png')
 
     return(
             <View >
@@ -32,7 +32,7 @@ const DecorationItem = ({decoration }) => {
                         width: '100%',
                         height: 300,
                     }}
-                    source={{uri: `${decoration?.thumb_img?.files.file}`}}
+                    source={image}
                 />
                 <Text style={{margin: 5}}>{name}</Text>
                 <View style={{flexDirection: 'row', margin: 5}}>
@@ -46,7 +46,7 @@ const DecorationItem = ({decoration }) => {
                     /> 
                 </View>
                 <Button 
-                    title="click"
+                    title="კალათა"
                     color = "red"
                     onPress = {() => navigation.navigate('კალათა')}
                 />
