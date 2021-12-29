@@ -1,10 +1,12 @@
-const counterReducer = (state = {}, action) => {
+const priceReducer = (state = [], action) => {
     switch(action.type) {
         case "SUCCESS":
             return action.data
+        case "FAIL":
+            return []
         default:
             return state
     }
 }
 
-export default counterReducer
+export default priceReducer

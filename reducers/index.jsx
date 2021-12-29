@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-import counterReducer from "./counter";
+import priceReducer from "./price";
 
 const allReducers = combineReducers({
-    counter: counterReducer
+    price: priceReducer
 })
 
 export default allReducers

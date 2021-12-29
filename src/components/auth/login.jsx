@@ -109,7 +109,6 @@ const Login = ({navigation}) => {
                         color = 'green'
                         disabled={!username || !password}
                         onPress={() => Login(username, password)}/>
-               
                     {
                         isLoading && <ActivityIndicator size="large" color="#00ff00" /> 
                     }
