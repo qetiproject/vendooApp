@@ -20,9 +20,21 @@ export default function App() {
     <Provider store={store}>
      <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="ავტორიზაცია" component={Login} />
-          <Stack.Screen name="პროდუქტები" component={DecorationCategory} />
-          <Stack.Screen name="კალათა" component={Card} />
+          <Stack.Screen 
+            name="Auth" 
+            component={Login} 
+            options={{ title: 'ავტორიზაცია' }}
+          />
+          <Stack.Screen 
+            name="Products" 
+            component={DecorationCategory} 
+            options={{ title: 'საახალწლო დეკორაციები' }}
+          />
+          <Stack.Screen 
+            name="Card" 
+            component={Card} 
+            options={{ title: 'კალათა' }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

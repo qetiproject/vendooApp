@@ -48,7 +48,7 @@ const DecorationItem = ({decoration }) => {
                 <Button 
                     title="კალათა"
                     color = "red"
-                    onPress = {() => navigation.navigate('კალათა')}
+                    onPress = {() => navigation.navigate('Card')}
                 />
             </View>
     )

@@ -40,7 +40,7 @@ const Login = ({navigation}) => {
             const token = response;
             await storeToken(token)
             setIsLogged(() => true)        
-            isLogged ? navigation.navigate('პროდუქტები') : ''
+            isLogged ? navigation.navigate('Products') : ''
         }
         catch(e){
             setError('')

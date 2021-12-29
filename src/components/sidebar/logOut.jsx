@@ -11,7 +11,7 @@ const LogOut = () => {
     const LogOut = async() => {
         await AsyncStorage.removeItem('token')
         setIsLogged(false)
-        navigation.navigate('ავტორიზაცია')
+        navigation.navigate('Auth')
     }
 
     return(
