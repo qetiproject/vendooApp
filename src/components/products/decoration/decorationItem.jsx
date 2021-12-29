@@ -10,7 +10,7 @@ const DecorationItem = ({decoration }) => {
     const navigation = useNavigation()
     const image  = decoration.thumb_img
                     ? {uri: `${decoration?.thumb_img?.files.file}`}
-                    : require('../../../assets/images/image-not-found.png')
+                    : require('../../../../assets/images/image-not-found.png')
 
     const addToCardItem = (value) => {
         dispatch({
