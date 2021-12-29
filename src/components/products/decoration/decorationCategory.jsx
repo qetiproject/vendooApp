@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import { ScrollView, View } from "react-native"
-import DecorationItem from "./decorationItem"
-import LogOut from '../sidebar/logOut'
 import SkeletonContent from 'react-native-skeleton-content';
-import { getDecorationData } from "../../../services/categoryService"
+import { getDecorationData } from "../../../../services/categoryService"
+import { DecorationItem } from "../index"
+import { LogOut } from '../../sidebar/index'
 
 const DecorationCategory = () => {
 

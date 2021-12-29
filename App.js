@@ -1,14 +1,13 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Login from './src/components/auth/login';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux'
-import allReducers from './reducers'
-import Card from './src/components/products/card';
-import DecorationCategory from './src/components/products/decorationCategory';
+import allReducers from './src/reducers'
+import { Card, DecorationCategory } from './src/components/products/index';
+import Login from './src/components/auth/login'
 
-export default function App() {
+ const App = () => {
 
   const store  = createStore(
     allReducers,
@@ -41,3 +40,5 @@ export default function App() {
     
   );
 }
+
+export default App

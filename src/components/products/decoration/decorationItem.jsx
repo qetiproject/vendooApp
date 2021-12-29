@@ -1,18 +1,13 @@
 import { useNavigation } from "@react-navigation/native"
 import { Text, View, Image, Button } from "react-native"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { useState } from "react";
 
 const DecorationItem = ({decoration }) => {
     
     const {name, final_price} = decoration
-    const price = useSelector(state => state.price)
     const dispatch = useDispatch()
-    // const [item, setItem] = useState([])
-
     const navigation = useNavigation()
-
     const image  = decoration.thumb_img
                     ? {uri: `${decoration?.thumb_img?.files.file}`}
                     : require('../../../assets/images/image-not-found.png')
@@ -26,7 +21,6 @@ const DecorationItem = ({decoration }) => {
 
     return(
             <View >
-                {/* <Text>{JSON.stringify(price)}</Text> */}
                 <Image
                     style={{
                         width: '100%',
@@ -45,11 +39,11 @@ const DecorationItem = ({decoration }) => {
                         onPress={() => addToCardItem(decoration)}
                     /> 
                 </View>
-                <Button 
+                {/* <Button 
                     title="კალათა"
                     color = "red"
                     onPress = {() => navigation.navigate('Card')}
-                />
+                /> */}
             </View>
     )
 }
