@@ -1,5 +1,5 @@
 import axios from "axios"
-import { environment } from "../../environments/environment"
+import { environment } from "../environments/environment"
 
 export const login = async (username, password) => {
     const mainUrl = environment.MainUrl

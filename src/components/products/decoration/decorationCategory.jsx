@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import { ScrollView, View } from "react-native"
+import DecorationItem from "./decorationItem"
+import LogOut from '../../sidebar/logOut'
 import SkeletonContent from 'react-native-skeleton-content';
-// import { getDecorationData } from "../../../../services/categoryService"
-import { DecorationItem } from './decorationItem'
-import { LogOut } from './../../sidebar/logOut'
+import { getDecorationData } from '../../../../services/categoryService'
 
 const DecorationCategory = () => {
 
@@ -11,16 +11,16 @@ const DecorationCategory = () => {
     const [isLoading, setIsLoading] = useState(true)
     
     const getDecoryCategory = async (category) => {
-        // try{
-        //     const response = await getDecorationData(category)
-        //     setDecoration(response.data.products)
-        //     setIsLoading(false)
-        // }
-        // catch(e){}
+        try{
+            const response = await getDecorationData(category)
+            setDecoration(response.data.products)
+            setIsLoading(false)
+        }
+        catch(e){}
     }
     
     useEffect( async () => {
-    //   await getDecoryCategory('saaxalwlo-nivtebi%2Fsaaxalwlo-dekoracia-aksesuarebi%2Fsaaxalwlo-satamashoebi')
+      await getDecoryCategory('saaxalwlo-nivtebi%2Fsaaxalwlo-dekoracia-aksesuarebi%2Fsaaxalwlo-satamashoebi')
     },[])
 
     return(

@@ -1,7 +1,8 @@
 import { useNavigation } from "@react-navigation/native"
 import { Text, View, Image, Button } from "react-native"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useState } from "react";
 
 const DecorationItem = ({decoration }) => {
     

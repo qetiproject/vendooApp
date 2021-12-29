@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { Text, TextInput, View, StyleSheet, Button, ActivityIndicator } from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { login } from '../../../services/authService'
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { login } from '../../services/authService'
 
 const Login = ({navigation}) => {
 
