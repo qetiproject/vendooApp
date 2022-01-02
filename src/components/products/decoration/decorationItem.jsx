@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native"
 import { Text, View, Image, Button } from "react-native"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const DecorationItem = ({decoration }) => {
@@ -8,16 +8,31 @@ const DecorationItem = ({decoration }) => {
     const {name, final_price} = decoration
     const dispatch = useDispatch()
     const navigation = useNavigation()
+    const item = useSelector(state => state.price)
 
     const image  = decoration.thumb_img
                     ? {uri: `${decoration?.thumb_img?.files.file}`}
                     : require('../../../../assets/images/image-not-found.png')
 
     const addToCardItem = (value) => {
-        dispatch({
-            type: 'SUCCESS',
-            data: value
-        })
+        if(item.length > 0){
+            item.forEach((x) => {
+                if(x.id != value.id){
+                    dispatch({
+                        type: 'SUCCESS',
+                        data: value
+                    })  
+                } else {
+                    return
+                }
+            })
+        }else {
+            dispatch({
+                type: 'SUCCESS',
+                data: value
+            })  
+        }
+          
     }
 
     return(

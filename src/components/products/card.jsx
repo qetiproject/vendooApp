@@ -7,15 +7,11 @@ const Card = () => {
     const item = useSelector(state => state.price)
     const [sum, setSum] = useState(0)
 
-    const image  = item?.thumb_img
-                    ? {uri: `${item?.thumb_img?.files.file}`}
-                    : require('../../../assets/images/image-not-found.png')
-
     const priceSum = () => {
         let totalPrice = 0
         item.forEach(x => {
             totalPrice += x.original_price 
-            setSum(totalPrice)
+            setSum(totalPrice.toFixed(2))
         })
     }
 
@@ -34,7 +30,10 @@ const Card = () => {
                                     width: 70,
                                     height: 80,
                                 }}
-                                source={image}
+                                source={ x?.thumb_img
+                                    ? {uri: `${x?.thumb_img?.files.file}`}
+                                    : require('../../../assets/images/image-not-found.png')
+                                }
                             />
                             <View style={{flexDirection: 'column', marginLeft: 5, width: '80%'}}>
                                 <Text style={{fontSize: 15}}>{x.original_price}ლ</Text>
