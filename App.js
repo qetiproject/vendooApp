@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './src/components/auth/login';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux'
-import allReducers from './reducers'
+import allReducers from './src/reducers'
 import Card from './src/components/products/card';
 import DecorationCategory from './src/components/products/decoration/decorationCategory';
 
