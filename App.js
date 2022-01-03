@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './src/components/auth/login';
@@ -7,6 +7,8 @@ import {createStore} from 'redux'
 import allReducers from './src/reducers'
 import Card from './src/components/products/card';
 import DecorationCategory from './src/components/products/decoration/decorationCategory';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Menu from './src/components/sidebar/menu';
 
  const App = () => {
 
@@ -19,7 +21,8 @@ import DecorationCategory from './src/components/products/decoration/decorationC
   return (
     <Provider store={store}>
      <NavigationContainer>
-        <Stack.Navigator>
+       <Menu />
+        {/* <Stack.Navigator>
           <Stack.Screen 
             name="Auth" 
             component={Login} 
@@ -35,7 +38,7 @@ import DecorationCategory from './src/components/products/decoration/decorationC
             component={Card} 
             options={{ title: 'კალათა' }}
           />
-        </Stack.Navigator>
+        </Stack.Navigator> */}
       </NavigationContainer>
     </Provider>
     

@@ -1,5 +1,4 @@
-import { useNavigation } from "@react-navigation/native"
-import { Text, View, Image, Button } from "react-native"
+import { Text, View, Image } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -7,7 +6,6 @@ const DecorationItem = ({decoration }) => {
     
     const {name, final_price} = decoration
     const dispatch = useDispatch()
-    const navigation = useNavigation()
     const item = useSelector(state => state.price)
 
     const image  = decoration.thumb_img
@@ -55,11 +53,6 @@ const DecorationItem = ({decoration }) => {
                         onPress={() => addToCardItem(decoration)}
                     /> 
                 </View>
-                <Button 
-                    title="კალათა"
-                    color = "grey"
-                    onPress = {() => navigation.navigate('Card')}
-                />
             </View>
     )
 }

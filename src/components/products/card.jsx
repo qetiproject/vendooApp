@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Image, Text, View } from "react-native"
+import { Image, ScrollView, Text, View } from "react-native"
 import { useSelector } from "react-redux"
 
 const Card = () => {
@@ -20,7 +20,7 @@ const Card = () => {
     ], [item])
 
     return(
-       <View>
+       <ScrollView>
             {
                 item.map((x) => {
                     return <View>
@@ -45,7 +45,7 @@ const Card = () => {
                 })
             }
             <Text style={{fontSize: 15}}>სულ: {sum}ლ</Text>
-       </View>
+       </ScrollView>
     )
 }
 
