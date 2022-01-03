@@ -76,40 +76,40 @@ const Login = ({navigation}) => {
                 margin: 20,
                 marginTop: 100,
             }}>
-                    <Text style={styles.error}>{error}</Text>
+                <Text style={styles.error}>{error}</Text>
+                <TextInput 
+                    style = {styles.input}
+                    type="text" 
+                    value={username} 
+                    placeholder="ელ.ფოსტა ან მობილური"
+                    onChangeText={(e) => usernameValidate(e)}
+                />
+                <Text style={styles.error}>{errorUsername}</Text>
+                <View style={styles.password}>
                     <TextInput 
                         style = {styles.input}
-                        type="text" 
-                        value={username} 
-                        placeholder="ელ.ფოსტა ან მობილური"
-                        onChangeText={(e) => usernameValidate(e)}
+                        autoCompleteType="password"
+                        secureTextEntry={hidePass ? true : false}
+                        placeholder="პაროლი"
+                        value={password} 
+                        onChangeText={(e) => setPassword(e)}
                     />
-                    <Text style={styles.error}>{errorUsername}</Text>
-                    <View style={styles.password}>
-                        <TextInput 
-                            style = {styles.input}
-                            autoCompleteType="password"
-                            secureTextEntry={hidePass ? true : false}
-                            placeholder="პაროლი"
-                            value={password} 
-                            onChangeText={(e) => setPassword(e)}
-                        />
-                        <Icon
-                            name={hidePass ? 'eye-slash' : 'eye'}
-                            size={15}
-                            color="grey"
-                            onPress={() => setHidePass(!hidePass)}
-                        />               
-                    </View>
-                    <Text style={styles.error}>{errorPassword}</Text>
-                    <Button 
-                        title = "ავტორიზაცია"
-                        color = 'green'
-                        disabled={!username || !password}
-                        onPress={() => Login(username, password)}/>
-                    {
-                        isLoading && <ActivityIndicator size="large" color="#00ff00" /> 
-                    }
+                    <Icon
+                        name={hidePass ? 'eye-slash' : 'eye'}
+                        size={15}
+                        color="grey"
+                        onPress={() => setHidePass(!hidePass)}
+                    />               
+                </View>
+                <Text style={styles.error}>{errorPassword}</Text>
+                <Button 
+                    title = "ავტორიზაცია"
+                    color = 'green'
+                    disabled={!username || !password}
+                    onPress={() => Login(username, password)}/>
+                {
+                    isLoading && <ActivityIndicator size="large" color="#00ff00" /> 
+                }
               </View>
     )
 }

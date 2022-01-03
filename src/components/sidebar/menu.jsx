@@ -5,19 +5,55 @@ import { useState } from "react";
 import DecorationCategory from "../products/decoration/decorationCategory";
 import Card  from '../products/card'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const Menu = () => {
     const Tab = createBottomTabNavigator();
     const [isLogged, setIsLogged] = useState(false)
 
-    useEffect( async () => {
+    const logged = async () => {
         const value = await AsyncStorage.getItem('token')
         value !== null ? setIsLogged(true) : setIsLogged(false)
+    }
+    useEffect(() => {
+       logged()
       }, [])
 
     return(
-    
-        <Tab.Navigator>
+     
+        <Tab.Navigator
+            screenOptions={({ route }) => ({
+             tabBarIcon: ({ focused, color, size }) => {
+                if (route.name === 'Auth') {
+                return (
+                    <Icon
+                        name={'user-astronaut'}
+                        size={25}
+                        color="green"
+                    />  
+                );
+                } else if (route.name === 'Products') {
+                return (
+                    <Icon
+                        name={'product-hunt'}
+                        size={25}
+                        color="green"
+                    />  
+                );
+                } else if (route.name === 'Card') {
+                    return (
+                        <Icon
+                            name={'id-card'}
+                            size={25}
+                            color="green"
+                        />  
+                    );
+                }
+            },
+            tabBarInactiveTintColor: 'gray',
+            tabBarActiveTintColor: 'tomato',
+        })}
+      >
             <Tab.Screen 
                 name="Auth" 
                 component={Login} 
@@ -33,12 +69,8 @@ const Menu = () => {
                 component={Card} 
                 options={{ title: 'კალათა' }}
             />
-            {/* <Tab.Screen 
-                name="Logout" 
-                component={LogOut} 
-                options={{ title: 'გასვლა' }}
-            /> */}
         </Tab.Navigator>
+       
     )
 }
 
