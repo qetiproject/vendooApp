@@ -1,11 +1,11 @@
 import Login from "../auth/login"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState} from "react";
 import DecorationCategory from "../products/decoration/decorationCategory";
 import Card  from '../products/card'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const Menu = () => {
     const Tab = createBottomTabNavigator();
@@ -15,15 +15,17 @@ const Menu = () => {
         const value = await AsyncStorage.getItem('token')
         value !== null ? setIsLogged(true) : setIsLogged(false)
     }
+
+    const Stack = createStackNavigator()
+
     useEffect(() => {
        logged()
       }, [])
 
     return(
-     
         <Tab.Navigator
             screenOptions={({ route }) => ({
-             tabBarIcon: ({ focused, color, size }) => {
+             tabBarIcon: () => {
                 if (route.name === 'Auth') {
                 return (
                     <Icon
@@ -50,10 +52,11 @@ const Menu = () => {
                     );
                 }
             },
-            tabBarInactiveTintColor: 'gray',
-            tabBarActiveTintColor: 'tomato',
+            tabBarInactiveTintColor: 'green',
+            tabBarActiveTintColor: 'red',
         })}
       >
+          <Tab.Group>
             <Tab.Screen 
                 name="Auth" 
                 component={Login} 
@@ -69,6 +72,8 @@ const Menu = () => {
                 component={Card} 
                 options={{ title: 'კალათა' }}
             />
+          </Tab.Group>
+            
         </Tab.Navigator>
        
     )

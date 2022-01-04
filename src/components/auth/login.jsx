@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
-import { Text, TextInput, View, StyleSheet, Button, ActivityIndicator } from "react-native"
+import { Text, TextInput, View, StyleSheet, Button, ActivityIndicator, Pressable } from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { login } from '../../services/authService'
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useNavigation } from "@react-navigation/native";
 
-const Login = ({navigation}) => {
+const Login = () => {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -14,7 +15,8 @@ const Login = ({navigation}) => {
     const [errorPassword, setErrorPassword] = useState('')
     const [hidePass, setHidePass] = useState(true);
     const [isLoading, setIsLoading] = useState(false)
-    
+    const navigation = useNavigation()
+
     const storeToken = async (value) => {
         try {
             await AsyncStorage.setItem('token', JSON.stringify(value))
@@ -35,7 +37,7 @@ const Login = ({navigation}) => {
         try{
             const response = await login(username, password)
             await AsyncStorage.removeItem('token')
-            const token = response;
+            const token = response.data.token;
             await storeToken(token)
             setIsLogged(() => true)        
             isLogged ? navigation.navigate('Products') : ''
@@ -67,8 +69,8 @@ const Login = ({navigation}) => {
         }
     }
     
-    useEffect( () => {
-         checkToken()
+    useEffect( async () => {
+        await checkToken()
     }, [])
 
     return(

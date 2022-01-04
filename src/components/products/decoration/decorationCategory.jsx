@@ -9,7 +9,7 @@ const DecorationCategory = () => {
 
     const [decoration, setDecoration] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-    
+
     const getDecoryCategory = async (category) => {
         try{
             const response = await getDecorationData(category)
@@ -23,6 +23,7 @@ const DecorationCategory = () => {
       await getDecoryCategory('saaxalwlo-nivtebi%2Fsaaxalwlo-dekoracia-aksesuarebi%2Fsaaxalwlo-satamashoebi')
     },[])
 
+   
     return(
         <ScrollView>
             <SkeletonContent
