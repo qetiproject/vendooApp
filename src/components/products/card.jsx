@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Image, ScrollView, Text, View } from "react-native"
 import { useSelector } from "react-redux"
+import LogOut from "../sidebar/logOut"
 
 const Card = () => {
 
@@ -21,6 +22,7 @@ const Card = () => {
 
     return(
        <ScrollView>
+           <LogOut />
             {
                 item.map((x) => {
                     return <View>

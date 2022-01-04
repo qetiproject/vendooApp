@@ -1,11 +1,10 @@
+import React, { useEffect, useState} from "react";
 import Login from "../auth/login"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React, { useEffect, useState} from "react";
 import DecorationCategory from "../products/decoration/decorationCategory";
 import Card  from '../products/card'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { createStackNavigator } from '@react-navigation/stack';
 
 const Menu = () => {
     const Tab = createBottomTabNavigator();
@@ -15,8 +14,6 @@ const Menu = () => {
         const value = await AsyncStorage.getItem('token')
         value !== null ? setIsLogged(true) : setIsLogged(false)
     }
-
-    const Stack = createStackNavigator()
 
     useEffect(() => {
        logged()

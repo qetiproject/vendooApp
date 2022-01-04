@@ -1,3 +1,4 @@
+import React from 'react'
 import { Text, View, Image } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import Icon from 'react-native-vector-icons/FontAwesome5';

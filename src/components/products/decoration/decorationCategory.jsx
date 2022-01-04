@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { ScrollView, View } from "react-native"
 import DecorationItem from "./decorationItem"
 import LogOut from '../../sidebar/logOut'
